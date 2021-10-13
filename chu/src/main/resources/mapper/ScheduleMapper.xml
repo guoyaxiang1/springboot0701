@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.s3.mapper.ScheduleMapper">
+    <select id="getAlls" resultType="com.s3.pojo.Schedule">
+        SELECT * FROM schedule INNER JOIN trip_mode ON trip_mode.id=schedule.trip_mode_id
+        <where>
+            <if test="trip_mode_id!=null and trip_mode_id!=-1">
+                and trip_mode_id like concat('%',#{trip_mode_id},'%')
+            </if>
+        </where>
+    </select>
+    <update id="update" parameterType="com.s3.pojo.Schedule">
+        update schedule set stauts=#{stauts} where id=#{id}
+    </update>
+    <insert id="add" parameterType="com.s3.pojo.Schedule">
+        insert into schedule values(null,#{user_name},#{duty},#{trip_mode_id},0,#{depart_time})
+    </insert>
+</mapper>
